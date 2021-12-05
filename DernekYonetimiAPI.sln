@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DernekYonetimiAPI", "DernekYonetimiAPI\DernekYonetimiAPI.csproj", "{3DE4B8AA-5940-4204-BF0F-F50337D85A12}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3DE4B8AA-5940-4204-BF0F-F50337D85A12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DE4B8AA-5940-4204-BF0F-F50337D85A12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DE4B8AA-5940-4204-BF0F-F50337D85A12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DE4B8AA-5940-4204-BF0F-F50337D85A12}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1E2AB548-0C48-4AB3-A59E-AB7F96B47935}
+	EndGlobalSection
+EndGlobal
