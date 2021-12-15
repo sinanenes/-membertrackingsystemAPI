@@ -8,15 +8,15 @@ namespace DernekYonetimiAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class IzinlerController : ControllerBase
+    public class KursKayitUyelerController : ControllerBase
     {
         private readonly IConfiguration _configuration;
 
-        private readonly ILogger<IzinlerController> _logger;
+        private readonly ILogger<KursKayitUyelerController> _logger;
 
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public IzinlerController(ILogger<IzinlerController> logger, IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
+        public KursKayitUyelerController(ILogger<KursKayitUyelerController> logger, IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
             _logger = logger;
             _configuration = configuration;
@@ -26,7 +26,7 @@ namespace DernekYonetimiAPI.Controllers
         [HttpGet]
         public JsonResult Get()
         {
-            string query = @"SELECT * FROM DernekDB.dbo.Izinler";
+            string query = @"SELECT * FROM DernekDB.dbo.KursKayitUyeler";
             DataTable dataTable = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("DernekDBCon");
             SqlDataReader sqlDataReader;
@@ -45,11 +45,11 @@ namespace DernekYonetimiAPI.Controllers
         }
 
         [HttpPost]
-        public JsonResult Post(Izin izin)
+        public JsonResult Post(KursKayitUye kursKayitUye)
         {
             string query = @"
-                    insert into DernekDB.dbo.Izinler (KisiId,BaslangicTarih,BitisTarih,Aciklama) 
-                    values('" + izin.KisiId + @"','" + izin.BaslangicTarih + @"','" + izin.BitisTarih + @"','" + izin.Aciklama + @"')
+                    insert into DernekDB.dbo.KursKayitUyeler (KursId,UyeId,BaslangicTarih,BitisTarih,Aciklama) 
+                    values('" + kursKayitUye.KursId + @"','" + kursKayitUye.UyeId + @"','" + kursKayitUye.BaslangicTarih + @"','" + kursKayitUye.BitisTarih + @"')
                     ";
             //DataTable dataTable = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("DernekDBCon");
@@ -65,14 +65,14 @@ namespace DernekYonetimiAPI.Controllers
                     sqlConnection.Close();
                 }
             }
-            return new JsonResult("Izin Eklendi!");
+            return new JsonResult("KursKayitUye Eklendi!");
         }
 
         [HttpPut]
-        public JsonResult Put(Izin izin)
+        public JsonResult Put(KursKayitUye kursKayitUye)
         {
             string query = @"
-                    Update DernekDB.dbo.Borclar set KisiId = '" + izin.KisiId + @"',BaslangicTarih='" + izin.BaslangicTarih + @"',BitisTarih='" + izin.BitisTarih + @"',Aciklama='" + izin.Aciklama + @"'where IzinId = '" + izin.IzinId + @"'
+                    Update DernekDB.dbo.KursKayitUyeler set KursId = '" + kursKayitUye.KursId + @"',UyeId='" + kursKayitUye.UyeId + @"',BaslangicTarih='" + kursKayitUye.BaslangicTarih + @"',BitisTarih='" + kursKayitUye.BitisTarih + @"'where KursKayitUyeId = '" + kursKayitUye.KursKayitUyeId + @"'
                     ";
             //DataTable dataTable = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("DernekDBCon");
@@ -88,14 +88,14 @@ namespace DernekYonetimiAPI.Controllers
                     sqlConnection.Close();
                 }
             }
-            return new JsonResult("Izin Guncellendi!");
+            return new JsonResult("KursKayitUye Guncellendi!");
         }
 
-        [HttpDelete("{izinId}")]
-        public JsonResult Delete(int izinId)
+        [HttpDelete("{kursKayitUyeId}")]
+        public JsonResult Delete(int kursKayitUyeId)
         {
             string query = @"
-                    Delete from DernekDB.dbo.Izinler where IzinId = '" + izinId + @"'
+                    Delete from DernekDB.dbo.KursKayitUyeler where KursKayitUyeId = '" + kursKayitUyeId + @"'
                     ";
             //DataTable dataTable = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("DernekDBCon");
@@ -111,7 +111,7 @@ namespace DernekYonetimiAPI.Controllers
                     sqlConnection.Close();
                 }
             }
-            return new JsonResult("İzin Silindi!");
+            return new JsonResult("KursKayitUye Silindi!");
         }
     }
 }

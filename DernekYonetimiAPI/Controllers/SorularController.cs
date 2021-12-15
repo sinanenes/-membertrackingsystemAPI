@@ -8,15 +8,15 @@ namespace DernekYonetimiAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class IzinlerController : ControllerBase
+    public class SorularController : ControllerBase
     {
         private readonly IConfiguration _configuration;
 
-        private readonly ILogger<IzinlerController> _logger;
+        private readonly ILogger<SorularController> _logger;
 
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public IzinlerController(ILogger<IzinlerController> logger, IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
+        public SorularController(ILogger<SorularController> logger, IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
             _logger = logger;
             _configuration = configuration;
@@ -26,7 +26,7 @@ namespace DernekYonetimiAPI.Controllers
         [HttpGet]
         public JsonResult Get()
         {
-            string query = @"SELECT * FROM DernekDB.dbo.Izinler";
+            string query = @"SELECT * FROM DernekDB.dbo.Sorular";
             DataTable dataTable = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("DernekDBCon");
             SqlDataReader sqlDataReader;
@@ -45,11 +45,11 @@ namespace DernekYonetimiAPI.Controllers
         }
 
         [HttpPost]
-        public JsonResult Post(Izin izin)
+        public JsonResult Post(Soru soru)
         {
             string query = @"
-                    insert into DernekDB.dbo.Izinler (KisiId,BaslangicTarih,BitisTarih,Aciklama) 
-                    values('" + izin.KisiId + @"','" + izin.BaslangicTarih + @"','" + izin.BitisTarih + @"','" + izin.Aciklama + @"')
+                    insert into DernekDB.dbo.Sorular (KullaniciId,SoruTarih,CevapTarih,SoruMetni,CevapMetni,CevaplayanId) 
+                    values('" + soru.KullaniciId + @"','" + soru.SoruTarih + @"','" + soru.CevapTarih + @"','" + soru.SoruMetni + @"','" + soru.CevapMetni + @"','" + soru.CevaplayanId+ @"')
                     ";
             //DataTable dataTable = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("DernekDBCon");
@@ -65,14 +65,14 @@ namespace DernekYonetimiAPI.Controllers
                     sqlConnection.Close();
                 }
             }
-            return new JsonResult("Izin Eklendi!");
+            return new JsonResult("Soru Eklendi!");
         }
 
         [HttpPut]
-        public JsonResult Put(Izin izin)
+        public JsonResult Put(Soru soru)
         {
             string query = @"
-                    Update DernekDB.dbo.Borclar set KisiId = '" + izin.KisiId + @"',BaslangicTarih='" + izin.BaslangicTarih + @"',BitisTarih='" + izin.BitisTarih + @"',Aciklama='" + izin.Aciklama + @"'where IzinId = '" + izin.IzinId + @"'
+                    Update DernekDB.dbo.Sorular set KullaniciId = '" + soru.KullaniciId + @"',SoruTarih = '" + soru.SoruTarih + @"',CevapTarih='" + soru.CevapTarih + @"',SoruMetni='" + soru.SoruMetni + @"',CevapMetni='" + soru.CevapMetni + @"',CevaplayanId='" + soru.CevaplayanId + @"'where SoruId = '" + soru.SoruId + @"'
                     ";
             //DataTable dataTable = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("DernekDBCon");
@@ -88,14 +88,14 @@ namespace DernekYonetimiAPI.Controllers
                     sqlConnection.Close();
                 }
             }
-            return new JsonResult("Izin Guncellendi!");
+            return new JsonResult("Soru Guncellendi!");
         }
 
-        [HttpDelete("{izinId}")]
-        public JsonResult Delete(int izinId)
+        [HttpDelete("{soruId}")]
+        public JsonResult Delete(int soruId) //Delete methodunu duzelt daha sonra kisiyi silmeden sadece pasife cek!
         {
             string query = @"
-                    Delete from DernekDB.dbo.Izinler where IzinId = '" + izinId + @"'
+                    Delete from DernekDB.dbo.Sorular where SoruId = '" + soruId + @"'
                     ";
             //DataTable dataTable = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("DernekDBCon");
@@ -111,7 +111,8 @@ namespace DernekYonetimiAPI.Controllers
                     sqlConnection.Close();
                 }
             }
-            return new JsonResult("İzin Silindi!");
+            return new JsonResult("Soru Silindi!");
         }
+
     }
 }

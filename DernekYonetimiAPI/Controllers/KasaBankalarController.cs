@@ -8,15 +8,15 @@ namespace DernekYonetimiAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class IzinlerController : ControllerBase
+    public class KasaBankalarController : ControllerBase
     {
         private readonly IConfiguration _configuration;
 
-        private readonly ILogger<IzinlerController> _logger;
+        private readonly ILogger<KasaBankalarController> _logger;
 
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public IzinlerController(ILogger<IzinlerController> logger, IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
+        public KasaBankalarController(ILogger<KasaBankalarController> logger, IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
             _logger = logger;
             _configuration = configuration;
@@ -26,7 +26,7 @@ namespace DernekYonetimiAPI.Controllers
         [HttpGet]
         public JsonResult Get()
         {
-            string query = @"SELECT * FROM DernekDB.dbo.Izinler";
+            string query = @"SELECT * FROM DernekDB.dbo.KasaBankalar";
             DataTable dataTable = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("DernekDBCon");
             SqlDataReader sqlDataReader;
@@ -45,11 +45,11 @@ namespace DernekYonetimiAPI.Controllers
         }
 
         [HttpPost]
-        public JsonResult Post(Izin izin)
+        public JsonResult Post(KasaBanka kasaBanka)
         {
             string query = @"
-                    insert into DernekDB.dbo.Izinler (KisiId,BaslangicTarih,BitisTarih,Aciklama) 
-                    values('" + izin.KisiId + @"','" + izin.BaslangicTarih + @"','" + izin.BitisTarih + @"','" + izin.Aciklama + @"')
+                    insert into DernekDB.dbo.KasaBankalar (KasaBankaAdi,KasaBankaTurKod,Aciklama) 
+                    values('" + kasaBanka.KasaBankaAdi + @"','" + kasaBanka.KasaBankaTurKod + @"','" + kasaBanka.Aciklama+ @"')
                     ";
             //DataTable dataTable = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("DernekDBCon");
@@ -65,14 +65,14 @@ namespace DernekYonetimiAPI.Controllers
                     sqlConnection.Close();
                 }
             }
-            return new JsonResult("Izin Eklendi!");
+            return new JsonResult("KasaBanka Eklendi!");
         }
 
         [HttpPut]
-        public JsonResult Put(Izin izin)
+        public JsonResult Put(KasaBanka kasaBanka)
         {
             string query = @"
-                    Update DernekDB.dbo.Borclar set KisiId = '" + izin.KisiId + @"',BaslangicTarih='" + izin.BaslangicTarih + @"',BitisTarih='" + izin.BitisTarih + @"',Aciklama='" + izin.Aciklama + @"'where IzinId = '" + izin.IzinId + @"'
+                    Update DernekDB.dbo.KasaBankalar set KasaBankaAdi = '" + kasaBanka.KasaBankaAdi + @"',KasaBankaTurKod='" + kasaBanka.KasaBankaTurKod + @"',Aciklama='" + kasaBanka.Aciklama + @"'where KasaBankaId = '" + kasaBanka.KasaBankaId + @"'
                     ";
             //DataTable dataTable = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("DernekDBCon");
@@ -88,14 +88,14 @@ namespace DernekYonetimiAPI.Controllers
                     sqlConnection.Close();
                 }
             }
-            return new JsonResult("Izin Guncellendi!");
+            return new JsonResult("KasaBanka Guncellendi!");
         }
 
-        [HttpDelete("{izinId}")]
-        public JsonResult Delete(int izinId)
+        [HttpDelete("{kasaBankaId}")]
+        public JsonResult Delete(int kasaBankaId)
         {
             string query = @"
-                    Delete from DernekDB.dbo.Izinler where IzinId = '" + izinId + @"'
+                    Delete from DernekDB.dbo.KasaBankalar where KasaBankaId = '" + kasaBankaId + @"'
                     ";
             //DataTable dataTable = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("DernekDBCon");
@@ -111,7 +111,7 @@ namespace DernekYonetimiAPI.Controllers
                     sqlConnection.Close();
                 }
             }
-            return new JsonResult("İzin Silindi!");
+            return new JsonResult("KasaBanka Silindi!");
         }
     }
 }

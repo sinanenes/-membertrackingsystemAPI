@@ -8,15 +8,15 @@ namespace DernekYonetimiAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class IzinlerController : ControllerBase
+    public class KodlarController : ControllerBase
     {
         private readonly IConfiguration _configuration;
 
-        private readonly ILogger<IzinlerController> _logger;
+        private readonly ILogger<KodlarController> _logger;
 
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public IzinlerController(ILogger<IzinlerController> logger, IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
+        public KodlarController(ILogger<KodlarController> logger, IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
             _logger = logger;
             _configuration = configuration;
@@ -26,7 +26,7 @@ namespace DernekYonetimiAPI.Controllers
         [HttpGet]
         public JsonResult Get()
         {
-            string query = @"SELECT * FROM DernekDB.dbo.Izinler";
+            string query = @"SELECT * FROM DernekDB.dbo.Kodlar";
             DataTable dataTable = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("DernekDBCon");
             SqlDataReader sqlDataReader;
@@ -45,11 +45,11 @@ namespace DernekYonetimiAPI.Controllers
         }
 
         [HttpPost]
-        public JsonResult Post(Izin izin)
+        public JsonResult Post(Kod kod)
         {
             string query = @"
-                    insert into DernekDB.dbo.Izinler (KisiId,BaslangicTarih,BitisTarih,Aciklama) 
-                    values('" + izin.KisiId + @"','" + izin.BaslangicTarih + @"','" + izin.BitisTarih + @"','" + izin.Aciklama + @"')
+                    insert into DernekDB.dbo.Kodlar (KodAdi,KodDeger,KodGrup) 
+                    values('" + kod.KodAdi + @"','" + kod.KodDeger + @"','" + kod.KodGrup + @"')
                     ";
             //DataTable dataTable = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("DernekDBCon");
@@ -65,14 +65,14 @@ namespace DernekYonetimiAPI.Controllers
                     sqlConnection.Close();
                 }
             }
-            return new JsonResult("Izin Eklendi!");
+            return new JsonResult("Kod Eklendi!");
         }
 
         [HttpPut]
-        public JsonResult Put(Izin izin)
+        public JsonResult Put(Kod kod)
         {
             string query = @"
-                    Update DernekDB.dbo.Borclar set KisiId = '" + izin.KisiId + @"',BaslangicTarih='" + izin.BaslangicTarih + @"',BitisTarih='" + izin.BitisTarih + @"',Aciklama='" + izin.Aciklama + @"'where IzinId = '" + izin.IzinId + @"'
+                    Update DernekDB.dbo.Kodlar set KodAdi = '" + kod.KodAdi + @"',KodDeger='" + kod.KodDeger + @"',KodGrup='" + kod.KodGrup + @"'where KodId = '" + kod.KodId + @"'
                     ";
             //DataTable dataTable = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("DernekDBCon");
@@ -88,14 +88,14 @@ namespace DernekYonetimiAPI.Controllers
                     sqlConnection.Close();
                 }
             }
-            return new JsonResult("Izin Guncellendi!");
+            return new JsonResult("Kod Guncellendi!");
         }
 
-        [HttpDelete("{izinId}")]
-        public JsonResult Delete(int izinId)
+        [HttpDelete("{kodId}")]
+        public JsonResult Delete(int kodId)
         {
             string query = @"
-                    Delete from DernekDB.dbo.Izinler where IzinId = '" + izinId + @"'
+                    Delete from DernekDB.dbo.Kodlar where KodId = '" + kodId + @"'
                     ";
             //DataTable dataTable = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("DernekDBCon");
@@ -111,7 +111,7 @@ namespace DernekYonetimiAPI.Controllers
                     sqlConnection.Close();
                 }
             }
-            return new JsonResult("İzin Silindi!");
+            return new JsonResult("Kod Silindi!");
         }
     }
 }

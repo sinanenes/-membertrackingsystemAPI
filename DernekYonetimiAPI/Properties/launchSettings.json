@@ -14,7 +14,7 @@
       "dotnetRunMessages": true,
       "launchBrowser": true,
       //"launchUrl": "swagger",
-      "launchUrl": "weatherforecast",
+      "launchUrl": "api/kisiler",
       "applicationUrl": "http://localhost:5167",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
@@ -24,7 +24,7 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       //"launchUrl": "swagger",
-      "launchUrl": "weatherforecast",
+      "launchUrl": "api/kisiler",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
