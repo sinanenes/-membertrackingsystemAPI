@@ -48,7 +48,7 @@ namespace DernekYonetimiAPI.Controllers
         public JsonResult Post(KursKayitUye kursKayitUye)
         {
             string query = @"
-                    insert into DernekDB.dbo.KursKayitUyeler (KursId,UyeId,BaslangicTarih,BitisTarih,Aciklama) 
+                    insert into DernekDB.dbo.KursKayitUyeler (KursId,UyeId,BaslangicTarih,BitisTarih) 
                     values('" + kursKayitUye.KursId + @"','" + kursKayitUye.UyeId + @"','" + kursKayitUye.BaslangicTarih + @"','" + kursKayitUye.BitisTarih + @"')
                     ";
             //DataTable dataTable = new DataTable();
