@@ -49,7 +49,7 @@ namespace DernekYonetimiAPI.Controllers
         {
             string query = @"
                     insert into DernekDB.dbo.Odemeler (KullaniciId,KisiId,OdemeTutar,OdemeTarih,OdemeTurKod,DonemAyKod,DonemYilKod,KasaBankaId,Aciklama) 
-                    values('" + odeme.KullaniciId + @"','" + odeme.KisiId + @"','" + odeme.OdemeTutar+ @"','" + odeme.OdemeTutar + @"','" + odeme.OdemeTurKod + @"','" + odeme.DonemAyKod + @"','" + odeme.DonemYilKod + @"','" + odeme.KasaBankaId + @"','" + odeme.Aciklama + @"')
+                    values('" + odeme.KullaniciId + @"','" + odeme.KisiId + @"','" + odeme.OdemeTutar+ @"','" + odeme.OdemeTarih + @"','" + odeme.OdemeTurKod + @"','" + odeme.DonemAyKod + @"','" + odeme.DonemYilKod + @"','" + odeme.KasaBankaId + @"','" + odeme.Aciklama + @"')
                     ";
             //DataTable dataTable = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("DernekDBCon");
