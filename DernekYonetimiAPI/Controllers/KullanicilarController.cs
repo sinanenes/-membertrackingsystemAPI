@@ -44,6 +44,28 @@ namespace DernekYonetimiAPI.Controllers
             return new JsonResult(dataTable);
         }
 
+        [HttpGet("{kullaniciAdi}/{parola}")]
+        public JsonResult Get(string kullaniciAdi, string parola)
+        {
+            string query = @"SELECT * FROM DernekDB.dbo.Kullanicilar where AktifPasifKod = 1 and KullaniciAdi = '" + kullaniciAdi + @"'and Parola = '" + parola + @"'
+                    ";
+            DataTable dataTable = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("DernekDBCon");
+            SqlDataReader sqlDataReader;
+            using (SqlConnection sqlConnection = new SqlConnection(sqlDataSource))
+            {
+                sqlConnection.Open();
+                using (SqlCommand sqlCommand = new SqlCommand(query, sqlConnection))
+                {
+                    sqlDataReader = sqlCommand.ExecuteReader();
+                    dataTable.Load(sqlDataReader);
+                    sqlDataReader.Close();
+                    sqlConnection.Close();
+                }
+            }
+            return new JsonResult(dataTable);
+        }
+
         [HttpPost]
         public JsonResult Post(Kullanici kullanici)
         {
