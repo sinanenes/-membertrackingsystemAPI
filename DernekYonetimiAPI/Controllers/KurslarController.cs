@@ -94,24 +94,31 @@ namespace DernekYonetimiAPI.Controllers
         [HttpDelete("{kursId}")]
         public JsonResult Delete(int kursId) //Delete methodunu duzelt daha sonra kisiyi silmeden sadece pasife cek!
         {
-            string query = @"
+            try
+            {
+                string query = @"
                     Delete from DernekDB.dbo.Kurslar where KursId = '" + kursId + @"'
                     ";
-            //DataTable dataTable = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("DernekDBCon");
-            SqlDataReader sqlDataReader;
-            using (SqlConnection sqlConnection = new SqlConnection(sqlDataSource))
-            {
-                sqlConnection.Open();
-                using (SqlCommand sqlCommand = new SqlCommand(query, sqlConnection))
+                //DataTable dataTable = new DataTable();
+                string sqlDataSource = _configuration.GetConnectionString("DernekDBCon");
+                SqlDataReader sqlDataReader;
+                using (SqlConnection sqlConnection = new SqlConnection(sqlDataSource))
                 {
-                    sqlDataReader = sqlCommand.ExecuteReader();
-                    //dataTable.Load(sqlDataReader);
-                    sqlDataReader.Close();
-                    sqlConnection.Close();
+                    sqlConnection.Open();
+                    using (SqlCommand sqlCommand = new SqlCommand(query, sqlConnection))
+                    {
+                        sqlDataReader = sqlCommand.ExecuteReader();
+                        //dataTable.Load(sqlDataReader);
+                        sqlDataReader.Close();
+                        sqlConnection.Close();
+                    }
                 }
+                return new JsonResult("Kurs Silindi!");
             }
-            return new JsonResult("Kurs Silindi!");
+            catch (Exception)
+            {
+                return new JsonResult("Silme Hatası!");
+            }
         }
 
         [Route("GetAllKursTurleri")]

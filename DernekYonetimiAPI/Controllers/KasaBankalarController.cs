@@ -94,24 +94,32 @@ namespace DernekYonetimiAPI.Controllers
         [HttpDelete("{kasaBankaId}")]
         public JsonResult Delete(int kasaBankaId)
         {
-            string query = @"
+            try
+            {
+                string query = @"
                     Delete from DernekDB.dbo.KasaBankalar where KasaBankaId = '" + kasaBankaId + @"'
                     ";
-            //DataTable dataTable = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("DernekDBCon");
-            SqlDataReader sqlDataReader;
-            using (SqlConnection sqlConnection = new SqlConnection(sqlDataSource))
-            {
-                sqlConnection.Open();
-                using (SqlCommand sqlCommand = new SqlCommand(query, sqlConnection))
+                //DataTable dataTable = new DataTable();
+                string sqlDataSource = _configuration.GetConnectionString("DernekDBCon");
+                SqlDataReader sqlDataReader;
+                using (SqlConnection sqlConnection = new SqlConnection(sqlDataSource))
                 {
-                    sqlDataReader = sqlCommand.ExecuteReader();
-                    //dataTable.Load(sqlDataReader);
-                    sqlDataReader.Close();
-                    sqlConnection.Close();
+                    sqlConnection.Open();
+                    using (SqlCommand sqlCommand = new SqlCommand(query, sqlConnection))
+                    {
+                        sqlDataReader = sqlCommand.ExecuteReader();
+                        //dataTable.Load(sqlDataReader);
+                        sqlDataReader.Close();
+                        sqlConnection.Close();
+                    }
                 }
+                return new JsonResult("KasaBanka Silindi!");
             }
-            return new JsonResult("KasaBanka Silindi!");
+            catch (Exception)
+            {
+                return new JsonResult("Silme Hatası!");
+            }
+
         }
     }
 }

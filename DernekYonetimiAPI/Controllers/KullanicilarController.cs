@@ -116,26 +116,33 @@ namespace DernekYonetimiAPI.Controllers
         [HttpDelete("{kullaniciId}")]
         public JsonResult Delete(int kullaniciId) //Delete methodunu duzelt daha sonra kisiyi silmeden sadece pasife cek!
         {
-            string query = @"
+            try
+            {
+                string query = @"
                     Delete from DernekDB.dbo.Kullanicilar where KullaniciId = '" + kullaniciId + @"'
                     ";
-            //DataTable dataTable = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("DernekDBCon");
-            SqlDataReader sqlDataReader;
-            using (SqlConnection sqlConnection = new SqlConnection(sqlDataSource))
-            {
-                sqlConnection.Open();
-                using (SqlCommand sqlCommand = new SqlCommand(query, sqlConnection))
+                //DataTable dataTable = new DataTable();
+                string sqlDataSource = _configuration.GetConnectionString("DernekDBCon");
+                SqlDataReader sqlDataReader;
+                using (SqlConnection sqlConnection = new SqlConnection(sqlDataSource))
                 {
-                    sqlDataReader = sqlCommand.ExecuteReader();
-                    //dataTable.Load(sqlDataReader);
-                    sqlDataReader.Close();
-                    sqlConnection.Close();
+                    sqlConnection.Open();
+                    using (SqlCommand sqlCommand = new SqlCommand(query, sqlConnection))
+                    {
+                        sqlDataReader = sqlCommand.ExecuteReader();
+                        //dataTable.Load(sqlDataReader);
+                        sqlDataReader.Close();
+                        sqlConnection.Close();
+                    }
                 }
+                return new JsonResult("Kullanici Silindi!");
             }
-            return new JsonResult("Kullanici Silindi!");
+            catch (Exception)
+            {
+                return new JsonResult("Silme Hatası!");
+            }
+            
         }
-
 
     }
 }

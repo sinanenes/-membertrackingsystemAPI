@@ -94,24 +94,32 @@ namespace DernekYonetimiAPI.Controllers
         [HttpDelete("{kodId}")]
         public JsonResult Delete(int kodId)
         {
-            string query = @"
+            try
+            {
+                string query = @"
                     Delete from DernekDB.dbo.Kodlar where KodId = '" + kodId + @"'
                     ";
-            //DataTable dataTable = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("DernekDBCon");
-            SqlDataReader sqlDataReader;
-            using (SqlConnection sqlConnection = new SqlConnection(sqlDataSource))
-            {
-                sqlConnection.Open();
-                using (SqlCommand sqlCommand = new SqlCommand(query, sqlConnection))
+                //DataTable dataTable = new DataTable();
+                string sqlDataSource = _configuration.GetConnectionString("DernekDBCon");
+                SqlDataReader sqlDataReader;
+                using (SqlConnection sqlConnection = new SqlConnection(sqlDataSource))
                 {
-                    sqlDataReader = sqlCommand.ExecuteReader();
-                    //dataTable.Load(sqlDataReader);
-                    sqlDataReader.Close();
-                    sqlConnection.Close();
+                    sqlConnection.Open();
+                    using (SqlCommand sqlCommand = new SqlCommand(query, sqlConnection))
+                    {
+                        sqlDataReader = sqlCommand.ExecuteReader();
+                        //dataTable.Load(sqlDataReader);
+                        sqlDataReader.Close();
+                        sqlConnection.Close();
+                    }
                 }
+                return new JsonResult("Kod Silindi!");
             }
-            return new JsonResult("Kod Silindi!");
+            catch (Exception)
+            {
+                return new JsonResult("Silme Hatası!");
+            }
+            
         }
     }
 }

@@ -94,24 +94,32 @@ namespace DernekYonetimiAPI.Controllers
         [HttpDelete("{tahsilatId}")]
         public JsonResult Delete(int tahsilatId)
         {
-            string query = @"
+            try
+            {
+                string query = @"
                     Delete from DernekDB.dbo.Tahsilatlar where TahsilatId = '" + tahsilatId + @"'
                     ";
-            //DataTable dataTable = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("DernekDBCon");
-            SqlDataReader sqlDataReader;
-            using (SqlConnection sqlConnection = new SqlConnection(sqlDataSource))
-            {
-                sqlConnection.Open();
-                using (SqlCommand sqlCommand = new SqlCommand(query, sqlConnection))
+                //DataTable dataTable = new DataTable();
+                string sqlDataSource = _configuration.GetConnectionString("DernekDBCon");
+                SqlDataReader sqlDataReader;
+                using (SqlConnection sqlConnection = new SqlConnection(sqlDataSource))
                 {
-                    sqlDataReader = sqlCommand.ExecuteReader();
-                    //dataTable.Load(sqlDataReader);
-                    sqlDataReader.Close();
-                    sqlConnection.Close();
+                    sqlConnection.Open();
+                    using (SqlCommand sqlCommand = new SqlCommand(query, sqlConnection))
+                    {
+                        sqlDataReader = sqlCommand.ExecuteReader();
+                        //dataTable.Load(sqlDataReader);
+                        sqlDataReader.Close();
+                        sqlConnection.Close();
+                    }
                 }
+                return new JsonResult("Tahsilat Silindi!");
             }
-            return new JsonResult("Tahsilat Silindi!");
+            catch (Exception)
+            {
+                return new JsonResult("Silme Hatası!");
+            }
+            
         }
     }
 }
