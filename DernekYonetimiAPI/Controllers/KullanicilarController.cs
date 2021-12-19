@@ -26,7 +26,7 @@ namespace DernekYonetimiAPI.Controllers
         [HttpGet]
         public JsonResult Get()
         {
-            string query = @"SELECT * FROM DernekDB.dbo.Kullanicilar";
+            string query = @"select ku.*, kodkultip.KodAdi as KullaniciTipiKodDeger, case when ku.AktifPasifKod = 1 then 'Aktif' else 'Pasif' end as AktifPasifKodDeger from Kullanicilar ku left join Kodlar kodkultip on ku.KullaniciTipiKod = kodkultip.KodDeger and kodkultip.KodGrup='KullaniciTipiKod'";
             DataTable dataTable = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("DernekDBCon");
             SqlDataReader sqlDataReader;

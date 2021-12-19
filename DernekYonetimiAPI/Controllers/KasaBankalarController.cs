@@ -26,7 +26,7 @@ namespace DernekYonetimiAPI.Controllers
         [HttpGet]
         public JsonResult Get()
         {
-            string query = @"SELECT * FROM DernekDB.dbo.KasaBankalar";
+            string query = @"select kb.*, ko.KodAdi as KasaBankaTurKodDeger from KasaBankalar kb left join Kodlar ko on kb.KasaBankaTurKod = ko.KodDeger and ko.KodGrup='KasaBankaTurKod'";
             DataTable dataTable = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("DernekDBCon");
             SqlDataReader sqlDataReader;
